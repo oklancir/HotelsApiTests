@@ -1,0 +1,22 @@
+﻿@using Hotels.Models
+@{
+    /**/
+
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>Rusky Hotels</h1>
+    <p class="lead">Reserve a place at the most expensive hotel on Earth.</p>
+    <p><a href="@Url.Action("ReservationList", "Reservation")" class="btn btn-primary btn-lg">Spend more money &raquo;</a></p>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <h2>Reserve a room</h2>
+        <p>
+            Rusky Hotels introductory text.
+        </p>
+        <p><a class="btn btn-default" href="@Url.Action("New", "Reservation")">Reserve a room &raquo;</a></p>
+    </div>
+</div>

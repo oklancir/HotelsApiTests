@@ -1,0 +1,34 @@
+﻿@model Hotels.Models.Room
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm())
+{
+    <div class="form-group">
+        @Html.LabelFor(model => model.Name)
+        @Html.TextBoxFor(model => model.Name, new { Class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Name)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.RoomType.Name)
+        @Html.TextBoxFor(model => model.RoomType.Name, new { Class = "form-control" })
+        @Html.ValidationMessageFor(model => model.RoomType.Name)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.RoomType.Price)
+        @Html.TextBoxFor(model => model.RoomType.Price, new { Class = "form-control" })
+        @Html.ValidationMessageFor(model => model.RoomType.Price)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.IsAvailable)
+        @Html.TextBoxFor(model => model.IsAvailable, new { Class = "form-control" })
+        @Html.ValidationMessageFor(model => model.IsAvailable)
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Save</button>
+    </div>
+}

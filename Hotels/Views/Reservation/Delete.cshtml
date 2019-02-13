@@ -1,0 +1,55 @@
+﻿@model Hotels.Models.Reservation
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Delete</h2>
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Reservation</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Guest.FirstName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Guest.FirstName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Guest.LastName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Guest.LastName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.StartDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.StartDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.EndDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.EndDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ReservationStatus)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ReservationStatus)
+        </dd>
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-primary" /> |
+            @Html.ActionLink("Back to List", "ReservationList")
+        </div>
+    }
+</div>

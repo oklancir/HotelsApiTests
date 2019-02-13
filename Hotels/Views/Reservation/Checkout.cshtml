@@ -1,0 +1,80 @@
+﻿@model  Hotels.ViewModels.CheckoutViewModel
+
+@{
+    ViewBag.Title = "Checkout";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Checkout</h2>
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h3>Reservation @Model.Reservation.Id Details</h3>
+
+<ul>
+    <li>Start Date: @Model.StartDate</li>
+    <li>End Date: @Model.EndDate</li>
+    <li>Room: @Model.Reservation.Room.Name</li>
+    <li>Status: @Model.Reservation.ReservationStatus.Name</li>
+</ul>
+
+<h3>Invoice Details</h3>
+
+<div>
+    <h4>Room: @Model.Reservation.Room.Name @Model.Reservation.Room.RoomType.Name </h4>
+    <h4>Price per day: @Model.Reservation.Room.RoomType.Price</h4>
+</div>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ItemId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Item.ServiceProduct.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Item.ServiceProduct.Price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Item.Quantity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.InvoiceId)
+        </th>
+    </tr>
+
+    @foreach (var item in Model.Items)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id, new { Class = "form-control" })
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ServiceProduct.Name, new { Class = "form-control" })
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ServiceProduct.Price, new { Class = "form-control" })
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantity, new { Class = "form-control" })
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.InvoiceId, new { Class = "form-control" })
+            </td>
+        </tr>
+    }
+
+
+</table>
+
+<h4>Discount: @Html.DisplayFor(m => m.Discount, new { Class = "form-control", @readonly = "true" })</h4>
+<h4>Total amount to pay: @Html.TextBoxFor(m => m.TotalAmount, new { Class = "form-control", @readonly = "true" })</h4>
+
+<div>
+    @Html.ActionLink("Checkout", "ConfirmCheckout", new { controller = "Reservation", id = Model.Reservation.Id }, new { @class = "btn btn-primary" }) |
+    @Html.ActionLink("Back to List", "ReservationList")
+</div>

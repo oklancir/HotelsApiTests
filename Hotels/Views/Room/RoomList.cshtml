@@ -1,0 +1,48 @@
+﻿@model IEnumerable<Hotels.Models.Room>
+@{
+    ViewBag.Title = "RoomList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>RoomList</h2>
+<p>
+    @Html.ActionLink("Add new room", "AddRoom")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RoomType.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RoomType.Price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsAvailable)
+        </th>
+    </tr>
+
+    @foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RoomType.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RoomType.Price)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsAvailable)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+        </td>
+    </tr>
+    }
+
+</table>

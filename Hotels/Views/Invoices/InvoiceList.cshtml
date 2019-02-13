@@ -1,0 +1,45 @@
+﻿@model IEnumerable<Hotels.Models.Invoice>
+@{
+    ViewBag.Title = "Invoice List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Invoice List</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsPaid)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TotalAmount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Reservation.Id)
+        </th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsPaid)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Reservation.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalAmount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Reservation.Guest.FirstName)
+                @Html.DisplayFor(modelItem => item.Reservation.Guest.LastName)
+            </td>
+        </tr>
+    }
+</table>

@@ -1,0 +1,36 @@
+﻿@model Hotels.ViewModels.RoomViewModel
+@{
+    ViewBag.Title = "AddRoom";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>AddRoom</h2>
+
+
+@using (Html.BeginForm())
+
+{
+    <div class="form-group">
+
+        @Html.LabelFor(model => model.Name)
+
+        @Html.TextBoxFor(model => model.Name, new { Class = "form-control" })
+
+        @Html.ValidationMessageFor(model => model.Name)
+
+    </div>
+
+    <div class="form-group">
+
+        @Html.LabelFor(model => model.RoomTypeId)
+
+        @Html.DropDownListFor(model => model.RoomTypeId, new SelectList(Model.RoomTypes))
+
+        @Html.ValidationMessageFor(model => model.RoomTypeId)
+
+    </div>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Save</button>
+    </div>
+}

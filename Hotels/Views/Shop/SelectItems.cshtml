@@ -1,0 +1,26 @@
+﻿@model Hotels.ViewModels.BuyViewModel
+@{
+    ViewBag.Title = "Select Items";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Select Items</h2>
+
+@using (Html.BeginForm("SelectItems", "Shop"))
+{
+    <div class="form-group">
+        @Html.LabelFor(m => m.ReservationId)
+        @Html.DropDownListFor(m => m.ReservationId, new SelectList(Model.Reservations, "Id", "Id"), "Select reservation", new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.ReservationId)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.ServiceProductId)
+        @Html.DropDownListFor(m => m.ServiceProductId, new SelectList(Model.ServiceProducts, "Id", "Name"), "Select product", new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.ServiceProductId)
+    </div>
+    <div id="startDateID" class="form-group">
+        @Html.LabelFor(m => m.Quantity)
+        @Html.TextBoxFor(m => m.Quantity, new { @class = "form-control" })
+    </div>
+    <button type="submit" class="btn btn-primary">Confirm</button>
+}
