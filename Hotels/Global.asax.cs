@@ -22,6 +22,18 @@ namespace Hotels
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
+        public class AutoMapperConfiguration
+        {
+            public void Configure()
+            {
+                Mapper.Initialize(cfg =>
+                {
+                    cfg.AddProfile<MappingProfile>();
+                });
+
+                Mapper.Configuration.AssertConfigurationIsValid();
+            }
+        }
 
         protected void Application_Error()
         {

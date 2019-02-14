@@ -2,7 +2,7 @@
 
 namespace Hotels.Models
 {
-    public class HotelsContext : DbContext
+    public class HotelsContext : DbContext, IHotelsContext
     {
         public HotelsContext() : base("name=HotelsDbContext")
         {

@@ -58,6 +58,9 @@
       <HintPath>..\packages\TimePeriodLibrary.NET.2.1.1\lib\net46\Itenso.TimePeriod.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\packages\NLog.4.5.11\lib\net45\NLog.dll</HintPath>
     </Reference>
@@ -129,9 +132,6 @@
     <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.4\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>
@@ -228,9 +228,14 @@
     <Compile Include="Migrations\201901171219410_UpdatedReservationModelWithInvoiceIdFK.Designer.cs">
       <DependentUpon>201901171219410_UpdatedReservationModelWithInvoiceIdFK.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201902141305414_ApiTestsMigration.cs" />
+    <Compile Include="Migrations\201902141305414_ApiTestsMigration.Designer.cs">
+      <DependentUpon>201902141305414_ApiTestsMigration.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Guest.cs" />
     <Compile Include="Models\HotelsContext.cs" />
+    <Compile Include="Models\IHotelsContext.cs" />
     <Compile Include="Models\Invoice.cs" />
     <Compile Include="Models\Item.cs" />
     <Compile Include="Models\Reservation.cs" />
@@ -274,7 +279,9 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -366,6 +373,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201901171219410_UpdatedReservationModelWithInvoiceIdFK.resx">
       <DependentUpon>201901171219410_UpdatedReservationModelWithInvoiceIdFK.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902141305414_ApiTestsMigration.resx">
+      <DependentUpon>201902141305414_ApiTestsMigration.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -1,69 +1,157 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
+﻿using AutoMapper;
+using Hotels.App_Start;
+using Hotels.Dtos;
+using Hotels.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
 namespace Hotels.ApiTests.Controllers
 {
-    /// <summary>
-    /// Summary description for GuestsControllerTests
-    /// </summary>
     [TestClass]
     public class GuestsControllerTests
     {
-        public GuestsControllerTests()
+        [TestMethod]
+        public async Task GetGuestsTest()
         {
-            //
-            // TODO: Add constructor logic here
-            //
-        }
+            var client = GetHttpClient();
+            var response = await client.GetAsync("api/guests");
+            IEnumerable<GuestDto> guests = null;
 
-        private TestContext testContextInstance;
-
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
-        public TestContext TestContext
-        {
-            get
+            if (response.IsSuccessStatusCode)
             {
-                return testContextInstance;
+                guests = await response.Content.ReadAsAsync<IEnumerable<GuestDto>>();
             }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
 
-        #region Additional test attributes
-        //
-        // You can use the following additional attributes as you write your tests:
-        //
-        // Use ClassInitialize to run code before running the first test in the class
-        // [ClassInitialize()]
-        // public static void MyClassInitialize(TestContext testContext) { }
-        //
-        // Use ClassCleanup to run code after all tests in a class have run
-        // [ClassCleanup()]
-        // public static void MyClassCleanup() { }
-        //
-        // Use TestInitialize to run code before running each test 
-        // [TestInitialize()]
-        // public void MyTestInitialize() { }
-        //
-        // Use TestCleanup to run code after each test has run
-        // [TestCleanup()]
-        // public void MyTestCleanup() { }
-        //
-        #endregion
+            Assert.IsInstanceOfType(guests, typeof(IEnumerable<GuestDto>));
+        }
 
         [TestMethod]
-        public void TestMethod1()
+        public async Task GetGuest_WhenIdIsValid_ReturnsGuestDto()
         {
-            //
-            // TODO: Add test logic here
-            //
+            var id = 12;
+            var client = GetHttpClient();
+            GuestDto guestDto = null;
+
+            var response = await client.GetAsync("api/guests/" + id);
+            if (response.IsSuccessStatusCode)
+            {
+                guestDto = await response.Content.ReadAsAsync<GuestDto>();
+            }
+
+            Assert.IsNotNull(guestDto, "Request success.");
+            Assert.AreEqual(guestDto.GetType(), typeof(GuestDto), "GuestDto returned.");
+        }
+        [TestMethod]
+        public async Task GetGuest_WhenIdNotValid_ReturnsGuestDto()
+        {
+            var id = -1;
+            var client = GetHttpClient();
+            GuestDto guestDto = null;
+
+            var response = await client.GetAsync("api/guests/" + id);
+            if (response.IsSuccessStatusCode)
+            {
+                guestDto = await response.Content.ReadAsAsync<GuestDto>();
+            }
+
+            Assert.IsNull(guestDto, "Failed request.");
+        }
+
+        [TestMethod]
+        public async Task CreateGuest_WhenGuestDtoIsValid_ReturnsGuestDto()
+        {
+            Mapper.Initialize(x =>
+            {
+                x.AddProfile<MappingProfile>();
+            });
+
+            var client = GetHttpClient();
+            GuestDto guestDto = null;
+            var guestToCreate = MockGuest();
+            var response = await client.PostAsJsonAsync("api/guests", Mapper.Map<Guest, GuestDto>(guestToCreate));
+
+            if (response.IsSuccessStatusCode)
+            {
+                guestDto = await response.Content.ReadAsAsync<GuestDto>();
+            }
+
+            Assert.IsNotNull(guestDto);
+            Assert.IsInstanceOfType(guestDto, typeof(GuestDto), "Guest successfully added");
+        }
+
+        [TestMethod]
+        public async Task CreateGuest_WhenGuestDtoIsNull_ReturnsNullGuestDto()
+        {
+            var client = GetHttpClient();
+            GuestDto guestDto = null;
+            var response = await client.PostAsJsonAsync("api/guests", Mapper.Map<Guest, GuestDto>(null));
+
+            if (response.IsSuccessStatusCode)
+            {
+                guestDto = await response.Content.ReadAsAsync<GuestDto>();
+            }
+
+            Assert.IsNull(guestDto, "Trying to post empty Guest");
+        }
+
+        [TestMethod]
+        public async Task EditGuest_WithVaildGuestId_Returns()
+        {
+            var client = GetHttpClient();
+            GuestDto guestDto = null;
+            var guestToUpdate = MockGuest();
+            guestToUpdate.FirstName = "UpdatedTestName";
+            var response = await client.PutAsJsonAsync("api/guests", Mapper.Map<Guest, GuestDto>(guestToUpdate));
+
+            if (response.IsSuccessStatusCode)
+            {
+                guestDto = await response.Content.ReadAsAsync<GuestDto>();
+            }
+
+            Assert.IsNotNull(guestDto);
+            Assert.AreEqual("UpdatedTestName", guestDto.FirstName);
+            Assert.IsInstanceOfType(guestDto, typeof(GuestDto));
+        }
+
+
+
+        private HttpClient GetHttpClient()
+        {
+            var client = new HttpClient { BaseAddress = new Uri(ConfigurationManager.AppSettings["BaseAddress"]) };
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            return client;
+        }
+
+        private Guest MockGuest()
+        {
+            return new Guest
+            {
+                Id = 8,
+                FirstName = "TestingRusk",
+                LastName = "TestRussian",
+                Address = "TestAddress",
+                Email = "test@test.it",
+                PhoneNumber = "123456789"
+            };
+        }
+
+        private async Task<int> GetGuestIdToDelete()
+        {
+            var client = GetHttpClient();
+            var guestToCreate = MockGuest();
+            var response = await client.PostAsJsonAsync("api/guests", Mapper.Map<Guest, GuestDto>(guestToCreate));
+
+            if (!response.IsSuccessStatusCode)
+                return -1;
+
+            var guestDto = await response.Content.ReadAsAsync<GuestDto>();
+            return guestDto.Id;
         }
     }
 }
