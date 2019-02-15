@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using Hotels.App_Start;
+using Hotels.Dtos;
+using Hotels.Models;
 using NLog;
 using System.Web;
 using System.Web.Http;
@@ -15,7 +17,8 @@ namespace Hotels
 
         protected void Application_Start()
         {
-            Mapper.Initialize(c => c.AddProfile<MappingProfile>());
+            AutoMapperConfiguration.Configure();
+            //Mapper.Initialize(c => c.AddProfile<MappingProfile>());
             GlobalConfiguration.Configure(WebApiConfig.Register);
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
@@ -24,11 +27,21 @@ namespace Hotels
         }
         public class AutoMapperConfiguration
         {
-            public void Configure()
+            public static void Configure()
             {
                 Mapper.Initialize(cfg =>
                 {
-                    cfg.AddProfile<MappingProfile>();
+                    //cfg.AddProfile<MappingProfile>();
+                    cfg.CreateMap<Guest, GuestDto>().ReverseMap();
+                    //cfg.CreateMap<GuestDto, Guest>().ForMember(c => c.Id, opt => opt.Ignore());
+                    cfg.CreateMap<Room, RoomDto>().ReverseMap();
+                    //cfg.CreateMap<RoomDto, Room>().ForMember(r => r.Id, opt => opt.Ignore());
+                    cfg.CreateMap<Reservation, ReservationDto>().ReverseMap();
+                    //cfg.CreateMap<ReservationDto, Reservation>().ForMember(r => r.Id, opt => opt.Ignore());
+                    cfg.CreateMap<Invoice, InvoiceDto>().ReverseMap();
+                    //cfg.CreateMap<InvoiceDto, Invoice>().ForMember(i => i.Id, opt => opt.Ignore());
+                    cfg.CreateMap<Item, ItemDto>().ReverseMap();
+                    //cfg.CreateMap<ItemDto, Item>().ForMember(i => i.Id, opt => opt.Ignore());
                 });
 
                 Mapper.Configuration.AssertConfigurationIsValid();

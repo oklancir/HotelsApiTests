@@ -65,7 +65,7 @@ namespace Hotels.Controllers.Api
         }
 
         [HttpPut]
-        public IHttpActionResult EditGuest(int id, GuestDto guestDto)
+        public IHttpActionResult EditGuest(int id, [FromBody] GuestDto guestDto)
         {
             if (!ModelState.IsValid)
                 throw new HttpResponseException(HttpStatusCode.BadRequest);

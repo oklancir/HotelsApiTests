@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Hotels.App_Start;
 using Hotels.Dtos;
 using Hotels.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -9,11 +8,21 @@ using System.Configuration;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using static Hotels.MvcApplication;
+
 namespace Hotels.ApiTests.Controllers
 {
     [TestClass]
     public class GuestsControllerTests
     {
+
+        [AssemblyInitialize]
+        public static void Initialize(TestContext context)
+        {
+            AutoMapperConfiguration.Configure();
+        }
+
+
         [TestMethod]
         public async Task GetGuestsTest()
         {
@@ -64,11 +73,6 @@ namespace Hotels.ApiTests.Controllers
         [TestMethod]
         public async Task CreateGuest_WhenGuestDtoIsValid_ReturnsGuestDto()
         {
-            Mapper.Initialize(x =>
-            {
-                x.AddProfile<MappingProfile>();
-            });
-
             var client = GetHttpClient();
             GuestDto guestDto = null;
             var guestToCreate = MockGuest();
@@ -99,13 +103,13 @@ namespace Hotels.ApiTests.Controllers
         }
 
         [TestMethod]
-        public async Task EditGuest_WithVaildGuestId_Returns()
+        public async Task EditGuest_WithVaildGuestId_ReturnsUpdatedGuestObject()
         {
             var client = GetHttpClient();
             GuestDto guestDto = null;
-            var guestToUpdate = MockGuest();
+            var guestToUpdate = MockGuestToDb();
             guestToUpdate.FirstName = "UpdatedTestName";
-            var response = await client.PutAsJsonAsync("api/guests", Mapper.Map<Guest, GuestDto>(guestToUpdate));
+            var response = await client.PutAsJsonAsync("api/guests/" + guestToUpdate.Id, Mapper.Map<Guest, GuestDto>(guestToUpdate));
 
             if (response.IsSuccessStatusCode)
             {
@@ -113,8 +117,26 @@ namespace Hotels.ApiTests.Controllers
             }
 
             Assert.IsNotNull(guestDto);
-            Assert.AreEqual("UpdatedTestName", guestDto.FirstName);
-            Assert.IsInstanceOfType(guestDto, typeof(GuestDto));
+            Assert.AreEqual("UpdatedTestName", guestDto.FirstName, "FirstName updated succesfully");
+            Assert.IsInstanceOfType(guestDto, typeof(GuestDto), "Returned GuestDto object");
+        }
+
+        [TestMethod]
+        public async Task DeleteGuest_WhenCalledWithValidId_ReturnsDeletedObject()
+        {
+            var client = GetHttpClient();
+            GuestDto guestDto = null;
+            var guestToDelete = GetGuestToDelete().GetAwaiter().GetResult();
+            var response = await client.DeleteAsync($"api/guests/{guestToDelete.Id}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                guestDto = await response.Content.ReadAsAsync<GuestDto>();
+            }
+
+            Assert.IsNotNull(guestDto);
+            Assert.AreEqual(guestToDelete.Id, guestDto.Id, "Guest Id is valid");
+            Assert.IsInstanceOfType(guestDto, typeof(GuestDto), "Object Deleted successfully");
         }
 
 
@@ -141,17 +163,40 @@ namespace Hotels.ApiTests.Controllers
             };
         }
 
-        private async Task<int> GetGuestIdToDelete()
+        private Guest MockGuestToDb()
+        {
+            var Context = new HotelsContext();
+
+            var testGuest = new Guest
+            {
+                Id = 8,
+                FirstName = "TestingRuskDb",
+                LastName = "TestRussianDb",
+                Address = "TestAddressDb",
+                Email = "test@test.it",
+                PhoneNumber = "123456789"
+            };
+
+            if (Context.Guests.Find(testGuest.Id) == null)
+            {
+                Context.Guests.Add(testGuest);
+                Context.SaveChanges();
+            }
+
+            return testGuest;
+        }
+
+        private async Task<GuestDto> GetGuestToDelete()
         {
             var client = GetHttpClient();
             var guestToCreate = MockGuest();
             var response = await client.PostAsJsonAsync("api/guests", Mapper.Map<Guest, GuestDto>(guestToCreate));
 
             if (!response.IsSuccessStatusCode)
-                return -1;
+                return null;
 
             var guestDto = await response.Content.ReadAsAsync<GuestDto>();
-            return guestDto.Id;
+            return guestDto;
         }
     }
 }
