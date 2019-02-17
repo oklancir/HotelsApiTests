@@ -32,7 +32,7 @@ namespace Hotels.ApiTests.Controllers
         [TestMethod]
         public async Task GetInvoice_WhenIdIsValid_ReturnsInvoiceDto()
         {
-            var id = 25;
+            var id = 8;
             var client = GetHttpClient();
             InvoiceDto invoiceDto = null;
 
@@ -94,7 +94,7 @@ namespace Hotels.ApiTests.Controllers
         }
 
         [TestMethod]
-        public async Task EditInvoice_WithVaildInvoiceId_ReturnsUpdatedInvoiceObject()
+        public async Task EditInvoice_WithValidInvoiceId_ReturnsUpdatedInvoiceObject()
         {
             var client = GetHttpClient();
             InvoiceDto invoiceDto = null;
@@ -146,7 +146,7 @@ namespace Hotels.ApiTests.Controllers
             return new Invoice
             {
                 Id = 1,
-                ReservationId = 145,
+                ReservationId = 1,
                 ItemId = 1,
                 TotalAmount = 10000,
                 IsPaid = false

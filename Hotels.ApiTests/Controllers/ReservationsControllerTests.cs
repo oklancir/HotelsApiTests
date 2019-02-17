@@ -35,7 +35,7 @@ namespace Hotels.ApiTests.Controllers
         [TestMethod]
         public async Task GetReservation_WhenIdIsValid_ReturnsReservationDto()
         {
-            var id = 145;
+            var id = 8;
             var client = GetHttpClient();
             ReservationDto reservationDto = null;
 
@@ -69,7 +69,7 @@ namespace Hotels.ApiTests.Controllers
         {
             var client = GetHttpClient();
             ReservationDto reservationDto = null;
-            var reservationToCreate = new Reservation { Id = 1, RoomId = 1, StartDate = DateTime.Today, EndDate = DateTime.Today.AddDays(3), InvoiceId = 3 };
+            var reservationToCreate = new Reservation {  RoomId = 4, StartDate = DateTime.Today, EndDate = DateTime.Today.AddDays(3) };
             var response = await client.PostAsJsonAsync("api/reservations", Mapper.Map<Reservation, ReservationDto>(reservationToCreate));
 
             if (response.IsSuccessStatusCode)

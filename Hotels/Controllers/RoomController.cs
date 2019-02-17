@@ -3,6 +3,7 @@ using Hotels.ViewModels;
 using NLog;
 using System;
 using System.Data.Entity;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -35,6 +36,11 @@ namespace Hotels.Controllers
 
         public ActionResult AddRoom(RoomViewModel model)
         {
+            if (model.RoomTypes == null)
+            {
+                model.RoomTypes = Context.RoomTypes.ToList();
+            }
+
             if (!ModelState.IsValid)
             {
                 return View(model);
@@ -53,7 +59,7 @@ namespace Hotels.Controllers
                 Context.SaveChanges();
                 return RedirectToAction("RoomList", "Room");
             }
-            catch (Exception e)
+            catch (DbEntityValidationException e)
             {
                 Logger.Error(e, e.Message);
                 return View("Error", new HandleErrorInfo(e, "Room", "AddRoom"));

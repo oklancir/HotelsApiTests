@@ -24,7 +24,9 @@
 
         @Html.LabelFor(model => model.RoomTypeId)
 
-        @Html.DropDownListFor(model => model.RoomTypeId, new SelectList(Model.RoomTypes))
+        @Html.DropDownListFor(model => model.RoomTypeId, 
+            new SelectList(Model.RoomTypes, "Id", "Name"),
+            "Select Room Type", new { @class = "form-control" })
 
         @Html.ValidationMessageFor(model => model.RoomTypeId)
 

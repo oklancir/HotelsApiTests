@@ -232,6 +232,18 @@
     <Compile Include="Migrations\201902141305414_ApiTestsMigration.Designer.cs">
       <DependentUpon>201902141305414_ApiTestsMigration.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201902151808599_Roomfix.cs" />
+    <Compile Include="Migrations\201902151808599_Roomfix.Designer.cs">
+      <DependentUpon>201902151808599_Roomfix.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902172041045_RemovedRequiredFromRoomProperty.cs" />
+    <Compile Include="Migrations\201902172041045_RemovedRequiredFromRoomProperty.Designer.cs">
+      <DependentUpon>201902172041045_RemovedRequiredFromRoomProperty.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902172141208_NewMigration.cs" />
+    <Compile Include="Migrations\201902172141208_NewMigration.Designer.cs">
+      <DependentUpon>201902172141208_NewMigration.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Guest.cs" />
     <Compile Include="Models\HotelsContext.cs" />
@@ -376,6 +388,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201902141305414_ApiTestsMigration.resx">
       <DependentUpon>201902141305414_ApiTestsMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902151808599_Roomfix.resx">
+      <DependentUpon>201902151808599_Roomfix.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902172041045_RemovedRequiredFromRoomProperty.resx">
+      <DependentUpon>201902172041045_RemovedRequiredFromRoomProperty.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902172141208_NewMigration.resx">
+      <DependentUpon>201902172141208_NewMigration.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

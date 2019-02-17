@@ -7,7 +7,7 @@ namespace Hotels.Models
     {
         public int Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please enter room name"), Display(Name = "Room name"), StringLength(50)]
         public string Name { get; set; }
 
         public bool IsAvailable { get; set; } = true;
@@ -15,7 +15,6 @@ namespace Hotels.Models
         [ForeignKey("RoomType")]
         public int RoomTypeId { get; set; }
 
-        [Required]
         public virtual RoomType RoomType { get; set; }
     }
 }

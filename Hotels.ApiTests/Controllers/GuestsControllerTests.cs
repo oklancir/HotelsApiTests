@@ -41,7 +41,7 @@ namespace Hotels.ApiTests.Controllers
         [TestMethod]
         public async Task GetGuest_WhenIdIsValid_ReturnsGuestDto()
         {
-            var id = 12;
+            var id = 1;
             var client = GetHttpClient();
             GuestDto guestDto = null;
 
@@ -54,6 +54,7 @@ namespace Hotels.ApiTests.Controllers
             Assert.IsNotNull(guestDto, "Request success.");
             Assert.AreEqual(guestDto.GetType(), typeof(GuestDto), "GuestDto returned.");
         }
+
         [TestMethod]
         public async Task GetGuest_WhenIdNotValid_ReturnsGuestDto()
         {
@@ -117,7 +118,7 @@ namespace Hotels.ApiTests.Controllers
             }
 
             Assert.IsNotNull(guestDto);
-            Assert.AreEqual("UpdatedTestName", guestDto.FirstName, "FirstName updated succesfully");
+            Assert.AreEqual("UpdatedTestName", guestDto.FirstName, "FirstName updated successfully");
             Assert.IsInstanceOfType(guestDto, typeof(GuestDto), "Returned GuestDto object");
         }
 
